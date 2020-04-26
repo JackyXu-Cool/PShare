@@ -1,0 +1,8 @@
+{
+    "env": {
+        "DB_USER": "jacky-code",
+        "DB_PASSWORD": "4UjUeRVRwIwbJTfJ",
+        "DB_NAME": "pshare",
+        "JWT_PRIVATE_KEY": "high_security"
+    }
+}
