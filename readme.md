@@ -7,7 +7,7 @@ https://pshare-project.web.app/
 ### Login page 
 <br />
 <img src="./demo/login.png"/>
-<img src="./demo/signup.png" width="50%" height="50%"/>
+<img src="./demo/signup.png" width="40%" height="50%"/>
 
 <br />
 
