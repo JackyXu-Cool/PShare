@@ -4,11 +4,12 @@ node_js:
 
 before_install: cd backend-nodejs
 
-deploy:
-  - provider: heroku
-    api_key: 2e2bdfaf-981b-4986-948a-5e4b01094b06
-    edge: true # opt in to dpl v2
-    app: pshare-jacky
-    on:
-      branch: master
+jobs:
+  include:
+    - stage: deploy to heroku
+      before_install: cd backend-nodejs
+      deploy: &heroku
+        provider: heroku
+        app: pshare-jacky
+        api_key: 2e2bdfaf-981b-4986-948a-5e4b01094b06
 
