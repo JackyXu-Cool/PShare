@@ -15,6 +15,6 @@ jobs:
       before_install: cd frontend-react
       before_script: npm install firebase-tools -g
       script:
-        npm run build
+        CI=false npm run build
         firebase deploy --only hosting --token "1//01QaCswrK88a-CgYIARAAGAESNwF-L9IrOfFHMiOcns2j-KAyQAF2C7cN9CdI_8iPz3gLJ1gy1Lp1ENZY_hoUnA5Psl3-BaCJPCE"
 
