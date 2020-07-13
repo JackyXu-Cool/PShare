@@ -12,4 +12,11 @@ jobs:
         provider: heroku
         app: pshare-jacky
         api_key: 2e2bdfaf-981b-4986-948a-5e4b01094b06
+    - stage: deploy to firebase
+      before_install: cd frontend-react
+      deploy: &firebase
+        provider: firebase
+        token:
+          secure: "1//01QaCswrK88a-CgYIARAAGAESNwF-L9IrOfFHMiOcns2j-KAyQAF2C7cN9CdI_8iPz3gLJ1gy1Lp1ENZY_hoUnA5Psl3-BaCJPCE"
+        project: "pshare-project"
 
