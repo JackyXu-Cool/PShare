@@ -18,7 +18,8 @@
     "mongoose": "^5.9.7",
     "mongoose-unique-validator": "^2.0.3",
     "multer": "^1.4.2",
-    "uuid": "^7.0.3"
+    "uuid": "^7.0.3",
+    "redis": "*"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"

@@ -21,7 +21,6 @@ app.use((req, res, next) => {
     next();
 });
 
-// Just return a file. 
 app.use('/uploads/images', express.static(path.join('uploads', 'images')));
 
 // Route starts with "/places"
