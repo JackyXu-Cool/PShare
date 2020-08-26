@@ -4,6 +4,8 @@ const jwt = require("jsonwebtoken");
 
 const HttpError = require("../models/http-error");
 const User = require("../models/user");
+const sgMail = require("../emails-service/account");
+const htmlTemplate = require("../emails-service/template");
 
 const getUsers = async (req, res, next) => {
     const users = await User.find({}, "-password");  // Hide password info
@@ -83,6 +85,16 @@ const signUp = async (req, res, next) => {
         );
         return next(error);
     }
+
+    sgMail.send({
+        to: email,
+        from: {
+            name: "PShare Development Team",
+            email: "kevinxie.social@gmail.com"
+        },
+        subject: "Welcome to PShare",
+        html: htmlTemplate
+    })
 
     res.status(201)
         .json({ user: {userId: createdUser.id, email: createdUser.email, token: token} });
