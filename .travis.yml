@@ -2,8 +2,16 @@ language: node_js
 node_js:
   - '8'
 
-before_deploy: "cd frontend-react"
+warnings_are_errors: false
+before_install: "cd frontend-react"
+
+install:
+  - npm install
+script:
+  - npm run build
+
 deploy:
-      provider: firebase
-      token:
-        secure: "1//0f4_tBxnIIbMvCgYIARAAGA8SNwF-L9IrEBTnUDuDS7dB-6BPLm5KfKwhMh5OdQ_3IRXF8n9jQdhLRV9OEGufQAfNaQo_a_ntLy0"
+  provider: firebase
+  skip_cleanup: true
+  token:
+    secure: "1//0f4_tBxnIIbMvCgYIARAAGA8SNwF-L9IrEBTnUDuDS7dB-6BPLm5KfKwhMh5OdQ_3IRXF8n9jQdhLRV9OEGufQAfNaQo_a_ntLy0"
