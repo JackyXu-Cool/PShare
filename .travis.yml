@@ -2,13 +2,11 @@ language: node_js
 node_js:
   - '8'
 
-deploy:
-  provider: elasticbeanstalk
-  access_key_id:
-    secure: "AKIAIECNJRJ7DAPMXOWA"
-  secret_access_key:
-    secure: "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"
-  region: "us-east-2"
-  app: "pshare"
-  env: "Pshare-env"
-  bucket_name: "elasticbeanstalk-us-east-2-252866775004"
+jobs:
+  include:
+    - stage: deploy
+      name: deploy to firebase
+      before_install: cd frontend-react
+      before_script: npm install firebase-tools -g
+      script:
+        CI=false npm run build && firebase deploy --only hosting --token "1//01QaCswrK88a-CgYIARAAGAESNwF-L9IrOfFHMiOcns2j-KAyQAF2C7cN9CdI_8iPz3gLJ1gy1Lp1ENZY_hoUnA5Psl3-BaCJPCE"
