@@ -2,10 +2,8 @@ language: node_js
 node_js:
   - '8'
 
-jobs:
-  include:
-    - stage: deploy
-      before_install: cd frontend-react
+before_deploy: "cd frontend-react"
+deploy:
       provider: firebase
       token:
-        secure: "1//01QaCswrK88a-CgYIARAAGAESNwF-L9IrOfFHMiOcns2j-KAyQAF2C7cN9CdI_8iPz3gLJ1gy1Lp1ENZY_hoUnA5Psl3-BaCJPCE"
+        secure: "1//0f4_tBxnIIbMvCgYIARAAGA8SNwF-L9IrEBTnUDuDS7dB-6BPLm5KfKwhMh5OdQ_3IRXF8n9jQdhLRV9OEGufQAfNaQo_a_ntLy0"
