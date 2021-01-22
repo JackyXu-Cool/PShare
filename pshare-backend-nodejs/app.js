@@ -21,8 +21,6 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use('/uploads/images', express.static(path.join('uploads', 'images')));
-
 // Route starts with "/places"
 app.use("/places", placesRoutes);
 

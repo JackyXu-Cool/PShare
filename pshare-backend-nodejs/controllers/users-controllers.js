@@ -1,11 +1,13 @@
 const { validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const uuid = require("uuid/v1");
 
 const HttpError = require("../models/http-error");
 const User = require("../models/user");
 const sgMail = require("../emails-service/account");
 const htmlTemplate = require("../emails-service/template");
+const uploadImageToS3 = require("../s3/s3upload");
 
 const getUsers = async (req, res, next) => {
     const users = await User.find({}, "-password");  // Hide password info
@@ -53,10 +55,21 @@ const signUp = async (req, res, next) => {
         return next(error);
     }
 
+    let imageIdAndType = `${uuid()}.${req.file.path.split(".")[1]}`;  // Format will be "1sdada.jpg"
+    try {
+        await uploadImageToS3(req.file.path, imageIdAndType);
+    } catch(err) {
+        const error = new HttpError(
+            "Fail to upload the image to ther server. Try again later",
+            500
+        );
+        return next(error);
+    }
+
     const createdUser = new User({
         name,
         email,
-        image: req.file.path,
+        image: `https://elasticbeanstalk-us-east-2-252866775004.s3.us-east-2.amazonaws.com/images/${imageIdAndType}`,
         password: hashedPassword,
         places: []
     });

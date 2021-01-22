@@ -9,12 +9,12 @@ AWS.config.update({
 
 const s3bucket = new AWS.S3();
 
-const uploadFile = () => {
-    fs.readFile("uploads/images/2fdd7240-8740-11ea-a552-61f8f6b22adf.jpeg", (err, data) => {
+const uploadImageToS3 = async (path, suffix) => {
+    fs.readFile(path, (err, data) => {
        if (err) throw err;
        const base64data = Buffer.from(data, "binary");
        const params = {
-            Key: "pshare-backend-nodejs/backup.jpg",
+            Key: `images/${suffix}`,
             Body: base64data,
             Bucket: "elasticbeanstalk-us-east-2-252866775004",
             ACL:'public-read'
@@ -26,4 +26,4 @@ const uploadFile = () => {
     });
 };
 
-module.exports = uploadFile;
+module.exports = uploadImageToS3;
