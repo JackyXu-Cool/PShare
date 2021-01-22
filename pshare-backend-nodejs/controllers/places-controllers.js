@@ -1,11 +1,13 @@
 const { validationResult } = require("express-validator");
 const mongoose = require("mongoose");
 const fs = require("fs");
+const uuid = require("uuid/v1");
 
 const HttpError = require("../models/http-error"); 
 const Place = require("../models/place");
 const User = require("../models/user");
 const getCoordinatesForAddress = require("../util/location");
+const uploadImageToS3 = require("../s3/s3upload");
 
 const getPlaceByID = async (req, res, next) => {
     place_id = req.params.placeID;
@@ -61,10 +63,21 @@ const createPlace = async (req, res, next) => {
             return next(err);
         }
 
+        let imageIdAndType = `${uuid()}.${req.file.path.split(".")[1]}`;  // Format will be "1sdada.jpg"
+        try {
+            await uploadImageToS3(req.file.path, imageIdAndType);
+        } catch(err) {
+            const error = new HttpError(
+                "Fail to upload the image to ther server. Try again later",
+                500
+            );
+            return next(error);
+        }
+
         const newPlace = new Place({
             title: title, 
             description: description,
-            image: req.file.path,
+            image: `https://elasticbeanstalk-us-east-2-252866775004.s3.us-east-2.amazonaws.com/images/${imageIdAndType}`,
             location: coordinates,
             address: address,
             likes: 0,
