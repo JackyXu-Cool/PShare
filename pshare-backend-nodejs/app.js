@@ -2,13 +2,15 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const fs = require("fs");
-const path = require("path");
+const cors = require("cors");
 
 const HttpError = require("./models/http-error");
 const placesRoutes = require("./routes/places-routes");
 const usersRoutes = require("./routes/users-routes");
 
 const app = express();
+
+app.use(cors());
 
 // Parse the request body from json to object format 
 app.use(bodyParser.json());
