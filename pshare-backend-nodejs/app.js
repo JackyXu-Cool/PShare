@@ -9,16 +9,23 @@ const usersRoutes = require("./routes/users-routes");
 
 const app = express();
 
-// Parse the request body from json to object format 
-app.use(bodyParser.json());
-
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", '*');
     res.header("Access-Control-Allow-Credentials", true);
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
     res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-    next();
+    //intercepts OPTIONS method
+    if ('OPTIONS' === req.method) {
+        //respond with 200
+        res.send(200);
+    } else {
+        //move on
+        next();
+    }
 });
+
+// Parse the request body from json to object format 
+app.use(bodyParser.json());
 
 // Route starts with "/places"
 app.use("/places", placesRoutes);
