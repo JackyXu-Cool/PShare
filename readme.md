@@ -2,8 +2,6 @@
 A web applications built with React.js, Node.js, Express.js and MongoDB. <br />
 https://pshare-project.web.app/
 
-[![Build Status]()](https://travis-ci.org/JackyXu-Cool/PShare)
-
 ## Screenshots
 
 ### Login page 
