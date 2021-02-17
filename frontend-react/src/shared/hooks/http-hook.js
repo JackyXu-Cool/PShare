@@ -9,7 +9,7 @@ export const useHttpClient = () => {
             setIsLoading(true);
 
             try {
-                const response = await fetch(`https://cors-anywhere.herokuapp.com/${url}`, {
+                const response = await fetch(`${url}`, {
                     method: method,
                     headers: headers,
                     body: body
