@@ -10,9 +10,13 @@ const router = express.Router();
 
 router.get("/user/:userid", placesController.getPlacesByUserID);
 
+router.get("/saved", placesController.getSavePlaceInfoInMemory);
+
 router.get("/:placeID", placesController.getPlaceByID);
 
 router.patch("/likes/:placeID", placesController.likePlace);
+
+router.patch("/save", placesController.savePlaceInfoInMemory);
 
 // So "/user/:userid" and "/:placeID" requests will not be affected
 router.use(authCheck);

@@ -2,12 +2,18 @@ const { validationResult } = require("express-validator");
 const mongoose = require("mongoose");
 const fs = require("fs");
 const uuid = require("uuid/v1");
+const redis = require("redis");
 
 const HttpError = require("../models/http-error"); 
 const Place = require("../models/place");
 const User = require("../models/user");
 const getCoordinatesForAddress = require("../util/location");
 const uploadImageToS3 = require("../s3/s3upload");
+const client = redis.createClient();
+
+client.on("error", function(error) {
+    console.log(error);
+});
 
 const getPlaceByID = async (req, res, next) => {
     place_id = req.params.placeID;
@@ -54,6 +60,13 @@ const createPlace = async (req, res, next) => {
     if (!error.isEmpty()) {
         next(new HttpError("Invalid input. Please check your data"), 422);
     } else {
+        client.flushall('ASYNC', function(err, succeed) {
+            if (err) {
+                return next(new HttpError("failed to delete in memory storage", 500));
+            }
+            console.log("sucessfully deleted in memory storage");
+        })
+
         const { title, description, address } = req.body;
 
         let coordinates;
@@ -174,9 +187,65 @@ const deletePlace = async (req, res, next) => {
 };
 
 
+const savePlaceInfoInMemory = async (req, res, next) => {
+    const { title, description, address } = req.body;
+    client.set("title", title, function(err, res) {
+        if (err) {
+            return next(new HttpError("Something went wrong when saving in memory"));
+        }
+    });
+    client.set("description", description, function(err, res) {
+        if (err) {
+            return next(new HttpError("Something went wrong when saving in memory"));
+        }
+    });
+    client.set("address", address, function(err, res) {
+        if (err) {
+            return next(new HttpError("Something went wrong when saving in memory"));
+        }
+    });
+
+    res.status(200)
+        .json({message: "Place information saved"});
+};
+
+const getSavePlaceInfoInMemory = async (req, res, next) => {
+    let title = "";
+    let description = "";
+    let address = "";
+    client.get("title", function(err, value) {
+        if (err) {
+            return next(new HttpError("Something went wrong when fetching in memory data"));
+        }
+        title = value;
+        client.get("description", function(err, value) {
+            if (err) {
+                return next(new HttpError("Something went wrong when fetching in memory data"));
+            }
+            description = value;
+            client.get("address", function(err, value) {
+                if (err) {
+                    return next(new HttpError("Something went wrong when fetching in memory data"));
+                }
+                address = value;
+                
+                let data = {
+                    title, description, address
+                };
+            
+                res.status(200)
+                    .json({data: data});
+            });
+        });
+    });
+};
+
+
 exports.getPlaceByID = getPlaceByID;
 exports.getPlacesByUserID = getPlacesByUserID;
 exports.createPlace = createPlace;
 exports.updatePlace = updatePlace;
 exports.deletePlace = deletePlace;
 exports.likePlace = likePlace;
+exports.savePlaceInfoInMemory = savePlaceInfoInMemory;
+exports.getSavePlaceInfoInMemory = getSavePlaceInfoInMemory;
