@@ -60,13 +60,6 @@ const createPlace = async (req, res, next) => {
     if (!error.isEmpty()) {
         next(new HttpError("Invalid input. Please check your data"), 422);
     } else {
-        client.flushall('ASYNC', function(err, succeed) {
-            if (err) {
-                return next(new HttpError("failed to delete in memory storage", 500));
-            }
-            console.log("sucessfully deleted in memory storage");
-        })
-
         const { title, description, address } = req.body;
 
         let coordinates;
