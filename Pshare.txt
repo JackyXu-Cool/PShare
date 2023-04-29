@@ -1,0 +1,29 @@
+MongoDB Information:
+jacky-code
+4UjUeRVRwIwbJTfJ
+
+password min: 8
+
+google map key ：AIzaSyCCGvKYhnTXl_3IOR9upjZbSbndN52y1Rc
+
+jwt-private key: high_security
+
+sendgrid: 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
+-------------------------
+Functions： 
+
+- Use Jwt to protect backend so that only when authorized token(can be verified & userId
+in its decoded payload match the place's creator id) is provided, the backend can be access.
+
+- Have a save button that used redis for saving the cache ( unfinished "add place" section)
+Use Hash (key is users' email address, value is {place: xxx}, {description: xxx} )
+
+- Email service: Signup, "like" above 10
+
+- Real time chatting room. (#europe, #north-america, #asia, #africa) 4 rooms, users could select one to join and chat with others
+Each room displays the active user list, and 7-day chatting message (stored in Redis)
+
+- Use ngnix and aws, make sure the image uploaded can be stored
+------------------------------------------
+Backend Server URL：  https://pshare-jacky.herokuapp.com
+Frotend URL: https://pshare-project.web.app/

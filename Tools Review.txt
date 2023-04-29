@@ -1,0 +1,11 @@
+Multer:
+- create a middleware using 
+const fileUpload = multer({
+	limits: ....,
+	storage: multer.diskStorage({}),
+	fileFilter: ...
+});
+This defines where the file will be stored, what will be its new filename, filter out files that we don't want it to store.
+- Use that middleware(fileUpload) by fileUpload.single(<key-name>). 在前端，我们send formData，是一组组的key-value pair，
+这里的parameter就是其中一个key，这个key对应的value是我们想上传的file
+- 之后，用req.file.path 即可得到这个file的相对位置，我们可以把它存入mongoDB中
